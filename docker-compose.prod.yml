@@ -1,0 +1,99 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: greenpilot-postgres
+    restart: unless-stopped
+    env_file:
+      - /opt/greenpilot/.env.production
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - greenpilot_net
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: greenpilot-redis
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - greenpilot_net
+
+  api:
+    image: greenpilot-backend:latest
+    container_name: greenpilot-backend
+    restart: unless-stopped
+    env_file:
+      - /opt/greenpilot/.env.production
+    volumes:
+      - backend_data:/app/data
+      - backend_media:/app/media
+      - backend_uploads:/app/uploads
+    ports:
+      - "127.0.0.1:5050:3011"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3011/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 45s
+    networks:
+      - greenpilot_net
+
+  web:
+    image: greenpilot-frontend:latest
+    container_name: greenpilot-frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8082:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - greenpilot_net
+
+  caddy:
+    image: caddy:2
+    container_name: greenpilot-caddy
+    profiles:
+      - caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /opt/greenpilot/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+    networks:
+      - greenpilot_net
+
+volumes:
+  postgres_data:
+  redis_data:
+  backend_data:
+  backend_media:
+  backend_uploads:
+  caddy_data:
+  caddy_config:
+
+networks:
+  greenpilot_net:
+    driver: bridge

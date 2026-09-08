@@ -1,0 +1,21 @@
+{
+  "name": "greenpilot-mcp",
+  "version": "1.2.1",
+  "description": "MCP server for building and managing Green Pilot WhatsApp AI agents from Claude Desktop.",
+  "type": "module",
+  "bin": {
+    "greenpilot-mcp": "src/index.js"
+  },
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "inspect": "npx @modelcontextprotocol/inspector node src/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.8"
+  }
+}

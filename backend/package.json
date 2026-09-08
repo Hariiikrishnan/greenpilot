@@ -1,0 +1,52 @@
+{
+  "name": "green-pilot-backend",
+  "version": "1.0.0-migration",
+  "description": "Green Pilot backend API & WhatsApp automation service",
+  "private": true,
+  "license": "LicenseRef-Sustainable-Use-License",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "node --test test/*.test.js",
+    "lint": "eslint src/ test/ scripts/",
+    "typecheck": "tsc --noEmit",
+    "pg:start": "node start-pg.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.99.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "bcryptjs": "^2.4.3",
+    "bullmq": "^5.77.6",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.3.1",
+    "googleapis": "^172.0.0",
+    "helmet": "^7.1.0",
+    "ioredis": "^5.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.1.1",
+    "openai": "^6.0.0",
+    "pg": "^8.21.0",
+    "socket.io": "^4.8.3",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.1",
+    "embedded-postgres": "^18.4.0-beta.17",
+    "eslint": "^9.39.5",
+    "globals": "^15.15.0",
+    "nodemon": "^3.1.4",
+    "socket.io-client": "^4.8.3",
+    "typescript": "^5.9.3"
+  },
+  "optionalDependencies": {
+    "@embedded-postgres/windows-x64": "^18.4.0-beta.17"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
+  }
+}

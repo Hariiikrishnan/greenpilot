@@ -1,0 +1,47 @@
+{
+  // Green Pilot TypeScript baseline (Phase 6, B2 — APPROVED).
+  //
+  // The engine is plain JS; rather than pretending the whole tree is typed
+  // (checkJs over 60 legacy files would drown real errors in noise), the
+  // compiler explicitly type-checks the NEW tenant-critical surface
+  // (tenancy layer, tenant middleware, org routes, tenant tests) with
+  // checkJs. The wire-level HTTP suite (tenantHttp) is EXCLUDED by name:
+  // it requires the full app graph, which exhausts the compiler heap —
+  // widening include to the legacy tree is a staged migration decision,
+  // not something to force by crashing tsc. Legacy files stay unchecked
+  // until their domain migrates.
+  // Phase 7: the realtime layer (socket auth, rooms, org-scoped emitter) is
+  // tenant-critical — it joins the checked surface, plus its DB-free test.
+  // No ts-ignore / suppression discipline: tsc must exit 0.
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "checkJs": true,
+    "strict": false,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "types": ["node"]
+  },
+  "include": [
+    "src/tenancy/**/*.js",
+    "src/middleware/tenant.js",
+    "src/routes/organizations.js",
+    "src/realtime/**/*.js",
+    "src/billing/**/*.js",
+    "src/routes/billing.js",
+    "src/ai/**/*.js",
+    "src/routes/ai.js",
+    "src/automation/**/*.js",
+    "src/routes/automations.js",
+    "src/queue/automationQueue.js",
+    "src/crm/**/*.js",
+    "src/routes/leads.js",
+    "src/routes/crm.js",
+    "test/tenant.test.js",
+    "test/tenantIsolation.test.js",
+    "test/socketRealtime.test.js"
+  ]
+}

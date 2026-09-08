@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Green Pilot">
+  <title>Green Pilot</title>
+  <path d="M 143.5 95 A 58 58 0 1 1 105 56.5" fill="none" stroke="#22c55e" stroke-width="26" stroke-linecap="round"/>
+  <line x1="88" y1="112" x2="168" y2="32" stroke="#22c55e" stroke-width="22" stroke-linecap="round"/>
+  <polygon points="168,32 158,73 127,42" fill="#22c55e" stroke="#22c55e" stroke-width="8" stroke-linejoin="round"/>
+  <circle cx="172" cy="118" r="11" fill="#22c55e"/>
+  <circle cx="170" cy="148" r="11" fill="#22c55e"/>
+  <circle cx="166" cy="178" r="11" fill="#22c55e"/>
+</svg>
